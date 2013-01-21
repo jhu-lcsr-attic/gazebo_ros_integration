@@ -1,0 +1,6 @@
+<?xml version="1.0"?>
+<sdf version="1.3">
+  <world name="default">
+    <plugin name="ros_clock" filename="libros_clock_plugin.so"/>
+  </world>
+</sdf>

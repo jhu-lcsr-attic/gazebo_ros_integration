@@ -4,38 +4,10 @@ project(gazebo_ros_integration)
 ## Find catkin macros and libraries
 ## if COMPONENTS list like find_package(catkin REQUIRED COMPONENTS xyz)
 ## is used, also find other catkin packages
-find_package(catkin REQUIRED)
+find_package(catkin REQUIRED COMPONENTS roscpp rosgraph_msgs)
 
 ## System dependencies are found with CMake's conventions
 # find_package(Boost REQUIRED COMPONENTS system)
-
-## Uncomment this if the package has a setup.py. This macro ensures
-## modules and scripts declared therein get installed
-# catkin_python_setup()
-
-#######################################
-## Declare ROS messages and services ##
-#######################################
-
-## Generate messages in the 'msg' folder
-# add_message_files(
-#   FILES
-#   Message1.msg
-#   Message2.msg
-# )
-
-## Generate services in the 'srv' folder
-# add_service_files(
-#   FILES
-#   Service1.srv
-#   Service2.srv
-# )
-
-## Generate added messages and services with any dependencies listed here
-# generate_messages(
-#   DEPENDENCIES
-#   std_msgs  # Or other packages containing msgs
-# )
 
 ###################################################
 ## Declare things to be passed to other projects ##
@@ -105,6 +77,17 @@ catkin_package(
 #   # myfile2
 #   DESTINATION ${CATKIN_PACKAGE_SHARE_DESTINATION}
 # )
+
+include (FindPkgConfig)
+pkg_check_modules(GAZEBO gazebo REQUIRED)
+
+include_directories(${GAZEBO_INCLUDE_DIRS})
+link_directories(${GAZEBO_LIBRARY_DIRS})
+
+add_library(ros_clock_plugin SHARED src/ros_clock_plugin.cpp)
+target_link_libraries(ros_clock_plugin ${catkin_LIBRARIES})
+
+install (TARGETS ros_model_plugin DESTINATION ${CMAKE_INSTALL_PREFIX}/lib/gazebo_plugins/)
 
 #############
 ## Testing ##
