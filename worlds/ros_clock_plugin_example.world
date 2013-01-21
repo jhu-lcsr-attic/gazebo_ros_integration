@@ -1,6 +1,7 @@
 <?xml version="1.0"?>
 <sdf version="1.3">
   <world name="default">
+    <!-- This will publish the simulation time to the standard ROS /clock topic. -->
     <plugin name="ros_clock" filename="libros_clock_plugin.so"/>
   </world>
 </sdf>

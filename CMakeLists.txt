@@ -27,19 +27,21 @@ catkin_package(
 ## Build ##
 ###########
 
+# Add Gazebo deps
+include (FindPkgConfig)
+pkg_check_modules(GAZEBO gazebo REQUIRED)
+include_directories(${GAZEBO_INCLUDE_DIRS})
+link_directories(${GAZEBO_LIBRARY_DIRS})
+
 ## Specify additional locations of header files
-# include_directories(include ${catkin_INCLUDE_DIRS} ${Boost_INCLUDE_DIRS})
+include_directories(${catkin_INCLUDE_DIRS})
 
-## Declare a cpp library
-# add_library(gazebo_ros_integration
-#   src/${PROJECT_NAME}/gazebo_ros_integration.cpp
-# )
-
-## Declare a cpp executable
-# add_executable(gazebo_ros_integration_node src/gazebo_ros_integration_node.cpp)
+## Gazebo plugins to build
+add_library(ros_clock_plugin SHARED src/ros_clock_plugin.cpp)
+target_link_libraries(ros_clock_plugin ${catkin_LIBRARIES})
 
 ## Add dependencies to the executable
-# add_dependencies(gazebo_ros_integration_node ${PROJECT_NAME})
+#add_dependencies(gazebo_ros_integration_node ${PROJECT_NAME})
 
 ## Specify libraries to link a library or executable target against
 # target_link_libraries(gazebo_ros_integration_node
@@ -72,22 +74,14 @@ catkin_package(
 # )
 
 ## Mark other files for installation (e.g. launch and bag files, etc.)
-# install(FILES
-#   # myfile1
-#   # myfile2
-#   DESTINATION ${CATKIN_PACKAGE_SHARE_DESTINATION}
-# )
+install(DIRECTORY worlds
+  DESTINATION ${CATKIN_PACKAGE_SHARE_DESTINATION}
+)
 
-include (FindPkgConfig)
-pkg_check_modules(GAZEBO gazebo REQUIRED)
-
-include_directories(${GAZEBO_INCLUDE_DIRS})
-link_directories(${GAZEBO_LIBRARY_DIRS})
-
-add_library(ros_clock_plugin SHARED src/ros_clock_plugin.cpp)
-target_link_libraries(ros_clock_plugin ${catkin_LIBRARIES})
-
-install (TARGETS ros_clock_plugin DESTINATION ${CMAKE_INSTALL_PREFIX}/lib/gazebo_plugins/)
+## Install gazebo plugins
+install (
+  TARGETS ros_clock_plugin
+  DESTINATION "${CATKIN_PACKAGE_LIB_DESTINATION}/gazebo_plugins")
 
 #############
 ## Testing ##
