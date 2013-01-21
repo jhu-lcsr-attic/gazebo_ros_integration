@@ -45,7 +45,7 @@ namespace gazebo
       nh_(NULL),
       node_argc_(0),
       node_argv_(NULL),
-      node_name_("gazebo_clock")
+      node_name_("gazebo")
     {
     }
 
@@ -59,9 +59,11 @@ namespace gazebo
       // Store the pointer to the world
       this->world_ = world;
       
-      // Start up ROS
-      // Note: If we don't disable the SIGINT handler, gazebo will not exit
-      ros::init(node_argc_, NULL, node_name_, ros::init_options::NoSigintHandler);
+      // Initialize ROS interface, if necessary
+      if(!ros::isInitialized) {
+        // Note: If we don't disable the SIGINT handler, gazebo will not exit
+        ros::init(node_argc_, NULL, node_name_, ros::init_options::NoSigintHandler);
+      }
 
       // ROS Nodehandle
       this->nh_.reset(new ros::NodeHandle());
