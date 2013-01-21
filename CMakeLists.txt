@@ -87,7 +87,7 @@ link_directories(${GAZEBO_LIBRARY_DIRS})
 add_library(ros_clock_plugin SHARED src/ros_clock_plugin.cpp)
 target_link_libraries(ros_clock_plugin ${catkin_LIBRARIES})
 
-install (TARGETS ros_model_plugin DESTINATION ${CMAKE_INSTALL_PREFIX}/lib/gazebo_plugins/)
+install (TARGETS ros_clock_plugin DESTINATION ${CMAKE_INSTALL_PREFIX}/lib/gazebo_plugins/)
 
 #############
 ## Testing ##
