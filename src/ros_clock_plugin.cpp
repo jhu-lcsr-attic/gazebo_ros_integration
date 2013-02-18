@@ -60,7 +60,7 @@ namespace gazebo
       this->world_ = world;
       
       // Initialize ROS interface, if necessary
-      if(!ros::isInitialized) {
+      if(!ros::isInitialized()) {
         // Note: If we don't disable the SIGINT handler, gazebo will not exit
         ros::init(node_argc_, NULL, node_name_, ros::init_options::NoSigintHandler);
       }
